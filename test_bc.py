@@ -1,5 +1,4 @@
 from pytest import Collector
-from fixtures import BOOK, GENRE
 from main import BooksCollector
 import pytest
 
@@ -25,6 +24,14 @@ class TestBooksCollector:
 
         assert collector.get_book_genre(BOOK) == GENRE  
 
+    def test_get_books_genre_positive(self):
+        collector = BooksCollector()
+
+        collector.add_new_book(BOOK)
+        collector.set_book_genre(BOOK, GENRE)
+
+        assert collector.get_books_genre() == collector.books_genre
+
     def test_set_book_genre_one_genre(self):
         collector = BooksCollector()
         collector.add_new_book(BOOK)
@@ -32,6 +39,14 @@ class TestBooksCollector:
 
 
         assert collector.books_genre[BOOK] == GENRE
+
+    def test_get_book_genre_one_genre(self):
+        collector = BooksCollector()
+        collector.add_new_book(BOOK)
+        collector.set_book_genre(BOOK, GENRE)
+
+
+        assert collector.books_genre[BOOK] == collector.get_book_genre(BOOK) 
 
     def test_get_books_with_specific_genre_correct_genre(self):
         collector = BooksCollector()
@@ -65,6 +80,16 @@ class TestBooksCollector:
         collector.add_book_in_favorites(BOOK)
         
         assert collector.favorites[0] == BOOK
+
+    def test_get_list_of_favorites_books_positive(self):
+        collector = BooksCollector()
+        collector.add_new_book(BOOK)
+        collector.set_book_genre(BOOK, GENRE)
+
+        collector.add_book_in_favorites(BOOK)
+        
+        assert collector.favorites == collector.get_list_of_favorites_books()
+
 
     def test_delete_book_from_favorites_positive(self):
         collector = BooksCollector()
